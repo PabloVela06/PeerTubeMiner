@@ -3,14 +3,13 @@ package aiss.peertubeminer.model.videominer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Channel")
-public class Channel {
+public class VMChannel {
 
     @Id
     @JsonProperty("id")
@@ -31,12 +30,12 @@ public class Channel {
     @JsonProperty("videos")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "channelId")
-    private List<Video> videos;
+    private List<VMVideo> videos;
 
-    public Channel() {
+    public VMChannel() {
     }
 
-    public Channel(String id,String name, String description, String createdTime){
+    public VMChannel(String id, String name, String description, String createdTime){
         this.id=id;
         this.name=name;
         this.description=description;
@@ -76,11 +75,11 @@ public class Channel {
         this.createdTime = createdTime;
     }
 
-    public List<Video> getVideos() {
+    public List<VMVideo> getVideos() {
         return videos;
     }
 
-    public void setVideos(List<Video> videos) {
+    public void setVideos(List<VMVideo> videos) {
         this.videos = videos;
     }
 

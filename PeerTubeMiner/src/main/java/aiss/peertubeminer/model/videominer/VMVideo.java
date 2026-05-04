@@ -3,14 +3,13 @@ package aiss.peertubeminer.model.videominer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Video")
-public class Video {
+public class VMVideo {
 
     @Id
     @JsonProperty("id")
@@ -30,23 +29,23 @@ public class Video {
 
     @JsonProperty("user")
     @OneToOne(cascade = CascadeType.ALL)
-    private User author;
+    private VMUser author;
 
     @JsonProperty("comments")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "videoId")
-    private List<Comment> comments;
+    private List<VMComment> comments;
 
     @JsonProperty("captions")
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "videoId")
-    private List<Caption> captions;
+    private List<VMCaption> captions;
 
-    public Video(){
+    public VMVideo(){
 
     }
 
-    public Video(String id,String name,String description,String releaseTime){
+    public VMVideo(String id, String name, String description, String releaseTime){
         setId(id);
         setName(name);
         setDescription(description);
@@ -88,27 +87,27 @@ public class Video {
         this.releaseTime = releaseTime;
     }
 
-    public User getAuthor() {
+    public VMUser getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(VMUser author) {
         this.author = author;
     }
 
-    public List<Comment> getComments() {
+    public List<VMComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<VMComment> comments) {
         this.comments = comments;
     }
 
-    public List<Caption> getCaptions() {
+    public List<VMCaption> getCaptions() {
         return captions;
     }
 
-    public void setCaptions(List<Caption> captions) {
+    public void setCaptions(List<VMCaption> captions) {
         this.captions = captions;
     }
 

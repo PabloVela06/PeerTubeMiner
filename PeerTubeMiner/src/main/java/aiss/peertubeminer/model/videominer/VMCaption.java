@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Caption")
-public class    Caption {
+public class VMCaption {
 
     @Id
     @JsonProperty("id")
@@ -19,11 +19,11 @@ public class    Caption {
     @Column(name = "language")
     private String language;
 
-    public Caption(){
+    public VMCaption(){
 
     }
 
-    public Caption(String id,String name, String language){
+    public VMCaption(String id, String name, String language){
         this.id=id;
         this.name=name;
         this.language=language;

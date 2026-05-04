@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "VMUser")
-public class User {
+public class VMUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,11 +20,11 @@ public class User {
     @JsonProperty("picture_link")
     private String picture_link;
 
-    public User(){
+    public VMUser(){
 
     }
 
-    public User(String name,String user_link,String picture_link){
+    public VMUser(String name, String user_link, String picture_link){
         setName(name);
         setUser_link(user_link);
         setPicture_link(picture_link);

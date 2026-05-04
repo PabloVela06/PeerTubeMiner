@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Comment")
-public class Comment {
+public class VMComment {
 
     @Id
     @JsonProperty("id")
@@ -19,11 +19,11 @@ public class Comment {
     @JsonProperty("createdOn")
     private String createdOn;
 
-    public Comment(){
+    public VMComment(){
 
     }
 
-    public Comment(String id,String text, String createdOn){
+    public VMComment(String id, String text, String createdOn){
         this.id=id;
         this.text=text;
         this.createdOn=createdOn;
