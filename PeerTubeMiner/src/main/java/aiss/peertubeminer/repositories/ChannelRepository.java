@@ -41,4 +41,26 @@ public class ChannelRepository {
         return channel;
     }
 
+    public VMChannel create(String channelHandle, Integer maxVideos, Integer maxComments, String apiKey) { //TODO: Implementar el uso de la apiKey
+        List<VMVideo> completeVideos = new ArrayList<>();
+        VMChannel channel = channelService.postChannel(channelHandle, apiKey);
+        List<Video> videos = videoService.getVideoPeerTube(channelHandle, maxVideos);
+        for(Video video: videos){
+            VMVideo createdVideo = videoService.postVideo(channel.getId(), Transformer.createVMVideo(video), apiKey);
+            VMUser author = userService.postUser(Transformer.createVMUser(video.getUser()), apiKey);
+            List<VMComment> comments = commentService.postComment(video.getId().toString(), createdVideo.getId(), maxComments, apiKey);
+            List<VMCaption> captions = captionService.postCaption(video.getId().toString(), createdVideo.getId(), apiKey);
+
+            createdVideo.setAuthor(author);
+            createdVideo.setComments(comments);
+            createdVideo.setCaptions(captions);
+            completeVideos.add(createdVideo);
+
+            createdVideo = videoService.updateVideo(createdVideo, apiKey);
+        }
+        channel.setVideos(completeVideos);
+        channel = channelService.updateChannel(channel, apiKey);
+        return channel;
+    }
+
 }

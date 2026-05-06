@@ -6,7 +6,10 @@ import aiss.peertubeminer.model.peertube.CommentList;
 import aiss.peertubeminer.model.videominer.VMCaption;
 import aiss.peertubeminer.etl.Transformer;
 import aiss.peertubeminer.model.videominer.VMComment;
+import aiss.peertubeminer.model.videominer.VMUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -30,7 +33,7 @@ public class CaptionService {
                 .toList();
     }
 
-    public List<VMCaption> postCaption(String videoId, String vmVideoId){
+    public List<VMCaption> postCaption(String videoId, String vmVideoId, String apiKey){
         List<VMCaption> res = new ArrayList<>();
         String getUri = String.format("https://peertube.cpy.re/api/v1/videos/%s/captions", videoId);
         String postUri = String.format("http://localhost:8080/videominer/captions/videos/%s/captions", vmVideoId);
@@ -39,7 +42,8 @@ public class CaptionService {
                 .map(cap -> Transformer.createVMCaption(cap))
                 .toList();
         for (VMCaption cap: captions){
-            ResponseEntity<VMCaption> response = restTemplate.postForEntity(postUri, cap, VMCaption.class);
+            HttpEntity<VMCaption> request = new HttpEntity<>(cap, AuxiliarFunction.getApiKeyHeader(apiKey));
+            ResponseEntity<VMCaption> response = restTemplate.exchange(postUri, HttpMethod.POST, request, VMCaption.class);
             res.add(response.getBody());
         }
         return res;

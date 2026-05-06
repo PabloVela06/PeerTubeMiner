@@ -3,8 +3,11 @@ package aiss.peertubeminer.service;
 import aiss.peertubeminer.etl.Transformer;
 import aiss.peertubeminer.model.peertube.Video;
 import aiss.peertubeminer.model.peertube.VideoList;
+import aiss.peertubeminer.model.videominer.VMUser;
 import aiss.peertubeminer.model.videominer.VMVideo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +20,7 @@ public class VideoService {
 
     //https://peertube.cpy.re/api/v1/video-channels/{channelHandle}/videos
     //http://localhost:8080/videominer/videos/channels/{channelId}/videos
+    //http://localhost:8080/videominer/videos/{id}
 
     @Autowired
     RestTemplate restTemplate;
@@ -35,7 +39,7 @@ public class VideoService {
         return videoList.getVideo();
     }
 
-    public List<VMVideo> postVideo(String channelHandle, String vmChannelId, Integer maxVideo){
+    public List<VMVideo> postVideo(String channelHandle, String vmChannelId, Integer maxVideo, String apiKey){
         List<VMVideo> res = new ArrayList<>();
         String getUri = String.format("https://peertube.cpy.re/api/v1/video-channels/%s/videos/%d", channelHandle, maxVideo);
         String postUri = String.format("http://localhost:8080/videominer/videos/channels/%s/videos", vmChannelId);
@@ -44,9 +48,24 @@ public class VideoService {
                 .map(vid -> Transformer.createVMVideo(vid))
                 .toList();
         for (VMVideo vid: videos){
-            ResponseEntity<VMVideo> response = restTemplate.postForEntity(postUri, vid, VMVideo.class);
+            HttpEntity<VMVideo> request = new HttpEntity<>(vid, AuxiliarFunction.getApiKeyHeader(apiKey));
+            ResponseEntity<VMVideo> response = restTemplate.exchange(postUri, HttpMethod.POST, request, VMVideo.class);
             res.add(response.getBody());
         }
         return res;
+    }
+
+    public VMVideo postVideo(String vmChannelId, VMVideo vmVideo, String apiKey) {
+        String uri = String.format("http://localhost:8080/videominer/videos/channels/%s/videos", vmChannelId);
+        HttpEntity<VMVideo> request = new HttpEntity<>(vmVideo, AuxiliarFunction.getApiKeyHeader(apiKey));
+        ResponseEntity<VMVideo> response = restTemplate.exchange(uri, HttpMethod.POST, request, VMVideo.class);
+        return response.getBody();
+    }
+
+    public VMVideo updateVideo(VMVideo vmVideo, String apiKey) {
+        String uri = String.format("http://localhost:8080/videominer/videos/%s", vmVideo.getId());
+        HttpEntity<VMVideo> request = new HttpEntity<>(vmVideo, AuxiliarFunction.getApiKeyHeader(apiKey));
+        ResponseEntity<VMVideo> response = restTemplate.exchange(uri, HttpMethod.PUT, request, VMVideo.class);
+        return response.getBody();
     }
 }

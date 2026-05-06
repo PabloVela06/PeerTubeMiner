@@ -4,7 +4,10 @@ import aiss.peertubeminer.etl.Transformer;
 import aiss.peertubeminer.model.peertube.Comment;
 import aiss.peertubeminer.model.peertube.CommentList;
 import aiss.peertubeminer.model.videominer.VMComment;
+import aiss.peertubeminer.model.videominer.VMUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,7 +32,7 @@ public class CommentService {
                 .toList();
     }
 
-    public List<VMComment> postComment(String videoId, String vmVideoId, Integer maxComments){
+    public List<VMComment> postComment(String videoId, String vmVideoId, Integer maxComments, String apiKey){
         List<VMComment> res = new ArrayList<>();
         String getUri = String.format("https://peertube.cpy.re/api/v1/videos/%s/comment-threads?count=%d", videoId, maxComments);
         String postUri = String.format("//http://localhost:8080/videominer/comments/videos/%s/comments", vmVideoId);
@@ -38,7 +41,8 @@ public class CommentService {
                 .map(com -> Transformer.createVMComment(com))
                 .toList();
         for (VMComment com: comments){
-            ResponseEntity<VMComment> response = restTemplate.postForEntity(postUri, com, VMComment.class);
+            HttpEntity<VMComment> request = new HttpEntity<>(com, AuxiliarFunction.getApiKeyHeader(apiKey));
+            ResponseEntity<VMComment> response = restTemplate.exchange(postUri, HttpMethod.POST, request, VMComment.class);
             res.add(response.getBody());
         }
         return res;

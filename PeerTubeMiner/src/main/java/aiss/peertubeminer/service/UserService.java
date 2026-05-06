@@ -46,4 +46,11 @@ public class UserService {
         }
         return res;
     }
+
+    public VMUser postUser(VMUser vmUser, String apiKey) {
+        String uri = "http://localhost:8080/videominer/users";
+        HttpEntity<VMUser> request = new HttpEntity<>(vmUser, AuxiliarFunction.getApiKeyHeader(apiKey));
+        ResponseEntity<VMUser> response = restTemplate.exchange(uri, HttpMethod.POST, request, VMUser.class);
+        return response.getBody();
+    }
 }
