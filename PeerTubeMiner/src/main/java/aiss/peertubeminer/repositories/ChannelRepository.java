@@ -1,8 +1,6 @@
 package aiss.peertubeminer.repositories;
 
 import aiss.peertubeminer.etl.Transformer;
-import aiss.peertubeminer.model.peertube.CompleteChannel;
-import aiss.peertubeminer.model.peertube.CompleteVideo;
 import aiss.peertubeminer.model.peertube.Video;
 import aiss.peertubeminer.model.videominer.*;
 import aiss.peertubeminer.service.*;
