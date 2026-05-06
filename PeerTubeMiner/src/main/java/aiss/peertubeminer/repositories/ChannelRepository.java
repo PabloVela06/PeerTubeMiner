@@ -41,7 +41,7 @@ public class ChannelRepository {
         return channel;
     }
 
-    public VMChannel create(String channelHandle, Integer maxVideos, Integer maxComments, String apiKey) { //TODO: Implementar el uso de la apiKey
+    public VMChannel create(String channelHandle, Integer maxVideos, Integer maxComments, String apiKey) {
         List<VMVideo> completeVideos = new ArrayList<>();
         VMChannel channel = channelService.postChannel(channelHandle, apiKey);
         List<Video> videos = videoService.getVideoPeerTube(channelHandle, maxVideos);
