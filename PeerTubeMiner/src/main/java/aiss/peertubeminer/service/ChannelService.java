@@ -21,7 +21,7 @@ public class ChannelService {
 
     //http://localhost:8080/videominer/channels
     //https://peertube.cpy.re/api/v1/video-channels/{channelHandle}
-    //http://localhost:8080/api/channel/{id}
+    //http://localhost:8080/videominer/channels/{id}
 
     public VMChannel getChannel(String channelHandle){ //channelHandle is a concatenation of name@host
         String uri = String.format("https://peertube.cpy.re/api/v1/video-channels/%s", channelHandle);
@@ -42,7 +42,7 @@ public class ChannelService {
     }
 
     public VMChannel updateChannel(VMChannel vmChannel, String apiKey) {
-        String uri = String.format("http://localhost:8080/api/channel/%s", vmChannel.getId());
+        String uri = String.format("http://localhost:8080/videominer/channels/%s", vmChannel.getId());
         HttpEntity<VMChannel> request = new HttpEntity<>(vmChannel, AuxiliarFunction.getApiKeyHeader(apiKey));
         ResponseEntity<VMChannel> response = restTemplate.exchange(uri, HttpMethod.PUT, request, VMChannel.class);
         return response.getBody();

@@ -41,7 +41,7 @@ public class VideoService {
 
     public List<VMVideo> postVideo(String channelHandle, String vmChannelId, Integer maxVideo, String apiKey){
         List<VMVideo> res = new ArrayList<>();
-        String getUri = String.format("https://peertube.cpy.re/api/v1/video-channels/%s/videos/%d", channelHandle, maxVideo);
+        String getUri = String.format("https://peertube.cpy.re/api/v1/video-channels/%s/videos?count=%d", channelHandle, maxVideo);
         String postUri = String.format("http://localhost:8080/videominer/videos/channels/%s/videos", vmChannelId);
         VideoList videoList = restTemplate.getForObject(getUri, VideoList.class);
         List<VMVideo> videos = videoList.getVideo().stream()

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +39,7 @@ class VideoServiceTest {
     void postVideo() {
         String channelHandle = "13751932-5a66-45a0-9605-8466d41cc948@peertube2.cpy.re";
         String apiKey = "guille6767";
-        VMChannel channel = service2.getChannel(channelHandle);
+        VMChannel channel = service2.postChannel(channelHandle, apiKey);
         service.postVideo(channelHandle, channel.getId(), 10, apiKey);
         System.out.println(channel);
     }
@@ -47,17 +48,26 @@ class VideoServiceTest {
     void testPostVideo() {
         String channelHandle = "13751932-5a66-45a0-9605-8466d41cc948@peertube2.cpy.re";
         String apiKey = "guille6767";
-        VMChannel channel = service2.getChannel(channelHandle);
-        VMVideo video = new VMVideo();
+        VMChannel channel = service2.postChannel(channelHandle, apiKey);
+        VMVideo video = new VMVideo(UUID.randomUUID().toString(),
+                "Nombre",
+                "Descripción",
+                "Fecha");
         service.postVideo(channel.getId(), video, apiKey);
-        System.out.println(channel);
+        System.out.println(video);
     }
 
     @Test
     void updateVideo() {
         String channelHandle = "13751932-5a66-45a0-9605-8466d41cc948@peertube2.cpy.re";
         String apiKey = "guille6767";
-        VMVideo video = service.updateVideo(new VMVideo(), apiKey);
-        System.out.println(video);
+        VMChannel channel = service2.postChannel(channelHandle, apiKey);
+        VMVideo video = new VMVideo(UUID.randomUUID().toString(),
+                "Nombre",
+                "Descripción",
+                "Fecha");
+        service.postVideo(channel.getId(), video, apiKey);
+        VMVideo videoActualizado = service.updateVideo(video, apiKey);
+        System.out.println(videoActualizado);
     }
 }

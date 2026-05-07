@@ -40,7 +40,7 @@ class ChannelServiceTest {
     void updateChannel() {
         String channelHandle = "13751932-5a66-45a0-9605-8466d41cc948@peertube2.cpy.re"; //TODO TENER EN CUENTA QUE LOS VALORES NO SON LOS CORRECTOS PARA EJECUTAR LOS TESTS
         String apiKey = "guille6767";
-        VMChannel previousChannel = service.getChannel(channelHandle);
+        VMChannel previousChannel = service.postChannel(channelHandle, apiKey);
         VMChannel channel = service.updateChannel(previousChannel, apiKey);
     }
 }

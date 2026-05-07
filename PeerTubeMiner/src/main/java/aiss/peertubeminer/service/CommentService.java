@@ -35,7 +35,7 @@ public class CommentService {
     public List<VMComment> postComment(String videoId, String vmVideoId, Integer maxComments, String apiKey){
         List<VMComment> res = new ArrayList<>();
         String getUri = String.format("https://peertube.cpy.re/api/v1/videos/%s/comment-threads?count=%d", videoId, maxComments);
-        String postUri = String.format("//http://localhost:8080/videominer/comments/videos/%s/comments", vmVideoId);
+        String postUri = String.format("http://localhost:8080/videominer/comments/videos/%s/comments", vmVideoId);
         CommentList commentList = restTemplate.getForObject(getUri, CommentList.class);
         List<VMComment> comments = commentList.getComment().stream()
                 .map(com -> Transformer.createVMComment(com))

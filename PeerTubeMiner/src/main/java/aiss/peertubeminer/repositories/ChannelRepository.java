@@ -63,7 +63,7 @@ public class ChannelRepository {
                 createdVideo = videoService.updateVideo(createdVideo, apiKey);
             }
             channel.setVideos(completeVideos);
-            channel = channelService.updateChannel(channel, apiKey);
+            channelService.updateChannel(channel, apiKey);
             return channel;
         }
         catch (HttpClientErrorException error) {
