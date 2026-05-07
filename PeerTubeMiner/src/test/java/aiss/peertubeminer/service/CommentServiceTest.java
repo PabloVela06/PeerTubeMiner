@@ -4,11 +4,13 @@ import aiss.peertubeminer.model.videominer.VMComment;
 import aiss.peertubeminer.model.videominer.VMUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class CommentServiceTest {
 
     @Autowired
@@ -22,7 +24,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void postComment() {  //TODO SERÍA REALMENTE EL postComment UNA LIST?
+    void postComment() {
         String videoId = "13751932-5a66-45a0-9605-8466d41cc948@peertube2.cpy.re";
         String vmVideoId = "13751932-5a66-45a0-9605-8466d41cc948@peertube2.cpy.re";
         String apiKey = "guille6767";

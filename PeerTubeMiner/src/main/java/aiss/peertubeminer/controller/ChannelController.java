@@ -29,7 +29,7 @@ public class ChannelController {
     public VMChannel create(@PathVariable String channelHandle,
                             @RequestParam(defaultValue = "10") int maxVideos,
                             @RequestParam(defaultValue = "2") int maxComments,
-                            @RequestHeader("x-api-key") String apiKey) {
+                            @RequestHeader("X-API-KEY") String apiKey) {
         return channelRepository.create(channelHandle, maxVideos, maxComments, apiKey);
     }
 
