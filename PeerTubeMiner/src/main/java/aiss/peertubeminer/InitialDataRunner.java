@@ -22,8 +22,8 @@ public class InitialDataRunner implements CommandLineRunner {
         try {
             Thread.sleep(15000);
             System.out.println("¡Lanzando la petición a PeerTube y enviando a VideoMiner!");
-            c.create("tv",10,2,"guille6767");
-            c.create("chem0013_videos",10,2,"guille6767");
+            c.create("poney@peertube2.cpy.re",10,2,"guille6767");
+            c.create("angie_channel@peertube2.cpy.re",10,2,"guille6767");
             System.out.println("¡Carga inicial completada con éxito!");
 
         } catch (Exception e) {
