@@ -34,7 +34,7 @@ public class UserService {
     public List<VMUser> postUser(String channelHandle, String apiKey) {
         List<VMUser> res = new ArrayList<>();
         String getUri = String.format("https://peertube.cpy.re/api/v1/video-channels/%s/videos", channelHandle);
-        String postUri = "http://localhost:8080/videominer/users";
+        String postUri = AuxiliarFunction.getVideoMinerUri("/users");
         VideoList videoList = restTemplate.getForObject(getUri, VideoList.class);
         List<VMUser> users = videoList.getVideo().stream()
                 .map(vid -> Transformer.createVMUser(vid.getUser()))
@@ -48,7 +48,7 @@ public class UserService {
     }
 
     public VMUser postUser(VMUser vmUser, String apiKey) {
-        String uri = "http://localhost:8080/videominer/users";
+        String uri = AuxiliarFunction.getVideoMinerUri("/users");
         HttpEntity<VMUser> request = new HttpEntity<>(vmUser, AuxiliarFunction.getApiKeyHeader(apiKey));
         ResponseEntity<VMUser> response = restTemplate.exchange(uri, HttpMethod.POST, request, VMUser.class);
         return response.getBody();

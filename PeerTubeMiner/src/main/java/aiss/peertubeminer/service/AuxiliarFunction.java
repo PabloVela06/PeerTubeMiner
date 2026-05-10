@@ -9,4 +9,8 @@ public class AuxiliarFunction {
         headers.set("X-API-KEY", apiKey);
         return headers;
     }
+
+    public static String getVideoMinerUri(String path) {
+        return String.format("http://localhost:8080/videominer%s", path);
+    }
 }
